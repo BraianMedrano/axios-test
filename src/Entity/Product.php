@@ -26,6 +26,17 @@ class Product
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $creation_date = null;
 
+    // The constructor is created so we don't have to use the setters to set the values of the properties in the controller when creating a new instance of the Product entity
+    public function __construct($name = null, $price = null, $description = null)
+    {
+        $this->name = $name;
+        $this->price = $price;
+        $this->description = $description;
+        $this->creation_date = new \DateTime();
+        
+    }
+    
+    
     public function getId(): ?int
     {
         return $this->id;
