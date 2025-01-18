@@ -1,4 +1,5 @@
 const Encore = require('@symfony/webpack-encore');
+const path = require('path');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -28,6 +29,9 @@ Encore
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    // .enableStimulusBridge('./assets/controllers.json')
+
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
@@ -55,6 +59,14 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';
     })
+
+    // Add the resolve property to include node_modules 
+    .addAliases({
+        node_modules: path.resolve(__dirname, 'node_modules'),
+        assets: path.resolve(__dirname, 'assets')
+    });
+    
+
 
     // enables Sass/SCSS support
     //.enableSassLoader()

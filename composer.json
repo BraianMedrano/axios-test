@@ -13,6 +13,7 @@
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.1.*",
+        "symfony/orm-pack": "*",
         "symfony/runtime": "7.1.*",
         "symfony/webapp-pack": "*",
         "symfony/webpack-encore-bundle": "*",
@@ -67,5 +68,8 @@
             "allow-contrib": false,
             "require": "7.1.*"
         }
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "*"
     }
 }
