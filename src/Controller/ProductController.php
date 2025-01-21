@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -47,15 +49,27 @@ class ProductController extends AbstractController
     }
 
     #[Route('/insert/product', name: 'app_product_insert')]
-    public function insert(): Response
+    public function insert(Request $request): Response
     {
-        $product = new Product('COCA COLA 2.25L ZERO', 3000);
+
+        $product = new Product();
+        $productForm = $this->createForm(ProductType::class, $product);
         
+        $productForm->handleRequest($request);
 
-        $this->entityM->persist($product);
-        $this->entityM->flush();
+        if ($productForm->isSubmitted() && $productForm->isValid()) {
+            
+            $product->setCreationDate(new \DateTime());
 
-        return new Response('Inserted new product with id ' . $product->getId());
+            $this->entityM->persist($product);
+            $this->entityM->flush();
+
+            return $this->redirectToRoute('app_product_list');
+        }
+
+        return $this->render('product/insert.html.twig', [
+            'form' => $productForm->createView(),
+        ]);
     }
 
     #[Route('/remove/product/{id}', name: 'app_product_remove')]
@@ -71,7 +85,7 @@ class ProductController extends AbstractController
         $this->entityM->remove($product);
         $this->entityM->flush();
 
-        return new Response('Removed product with id ' . $id);
+        return $this->redirectToRoute('app_product_list');
     }
 
 

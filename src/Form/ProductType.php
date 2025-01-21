@@ -16,9 +16,6 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('price')
             ->add('description')
-            ->add('creation_date', null, [
-                'widget' => 'single_text',
-            ])
             ->add('submit', SubmitType::class)
         ;
     }
