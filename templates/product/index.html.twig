@@ -9,8 +9,30 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name.name }}! ✅</h1>
 
-    This friendly message has the product from the controller which is: {{ dump(productCustom2)}}.
+    {# The producs are the following: {{ dump(products) }} #}
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td><a href="{{ path('app_product', {'id': product.id}) }}">show</a></td>
+                    <td><a href="{{ path('app_product_remove', {'id':product.id} )}}">delete</a></td>
+                    
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     
 {% endblock %}

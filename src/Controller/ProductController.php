@@ -18,16 +18,27 @@ class ProductController extends AbstractController
         $this->entityM = $entityM;
     }
 
+    #[Route('/product', name: 'app_product_list')]
+    public function list(): Response
+    {
+        $products = $this->entityM->getRepository(Product::class)->findAll();
+
+        return $this->render('product/index.html.twig', [
+            'products' => $products,
+        ]);
+    }
+
+
     #[Route('/product/{id}', name: 'app_product')]
-    public function index(Product $product, $id): Response
+    public function show(Product $product, $id): Response
     {
         // $product = $this->entityM->getRepository(Product::class)->find($id);
         // $product = $this->entityM->getRepository(Product::class)->findBy(['name' => 'COCA COLA 2.25L COMUN']);
-        $product = $this->entityM->getRepository(Product::class)->findOneBy(['name' => 'COCA COLA 2.25L COMUN']);
+        // $product = $this->entityM->getRepository(Product::class)->findOneBy(['name' => 'COCA COLA 2.25L COMUN']);
         $customProduct1 = $this->entityM->getRepository(Product::class)->findProductByIdCustomQuery($id);
         $customProduct2 = $this->entityM->getRepository(Product::class)->findProductById($id);
 
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/products.html.twig', [
             'controller_name' => ['name' => 'ProductController'],
             'product' => $product, 
             'productCustom1' => $customProduct1,  
