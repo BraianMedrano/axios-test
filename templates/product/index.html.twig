@@ -12,12 +12,14 @@
 
     {# The producs are the following: {{ dump(products) }} #}
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Creation date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,16 +28,17 @@
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
-                    <td><a href="{{ path('app_product', {'id': product.id}) }}">show</a></td>
-                    <td><a href="{{ path('app_product_remove', {'id':product.id} )}}">delete</a></td>
-                    
-                    
+                    <td>{{ product.creationDate|date('d-m-Y H:i') }}</td>
+                    <td>
+                        <a type="button" class="btn btn-primary btn-sm" href="{{ path('app_product', {'id': product.id}) }}">Show</a>
+                        <a type="button" class="btn btn-danger btn-sm" href="{{ path('app_product_remove', {'id':product.id} )}}">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
     
-    <a href="{{ path('app_product_insert') }}">Create new</a>
+    <a type="button" class="btn btn-primary" href="{{ path('app_product_insert') }}">Create new</a>
     
 {% endblock %}

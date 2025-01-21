@@ -4,8 +4,38 @@
 
 {% block body %}
 
-    {{form(form)}}
+<div class="container mt-4">
 
-<a href="{{ path('app_product_list') }}">List Products</a>
+        <h1>Insert Product</h1>
+
+        {{ form_start(form) }}
+        
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.name) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.price) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.description) }}
+        </div>
+
+        {# <button type="submit" class="btn btn-primary">Submit</button> #}
+        {{ form_row(form.submit, {'label':'Submit', 'attr': {'class': 'btn btn-primary'}}) }}
+        
+        {{ form_end(form) }}
+
+        <a href="{{ path('app_product_list') }}" class="btn btn-secondary mt-3">Back to List</a>
+
+</div>
+
 
 {% endblock %}
