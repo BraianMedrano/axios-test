@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -88,6 +89,37 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('app_product_list');
     }
 
+    #[Route('/showDescription/product/{id}', name: 'app_product_show_description', options: ['expose' => true])]
+    public function showDescription($id): Response
+    {
+        $product = $this->entityM->getRepository(Product::class)->find($id);
 
+        if (!$product) {
+            
+            // In this route we have to return a JSON response because we are not rendering a twig template, just sending the JSON to the frontend (JavaScript)
 
+            return $this->json(['error' => 'No product found for id ' . $id], Response::HTTP_NOT_FOUND);
+        }
+
+        return $this->json(['description' => $product->getDescription()]);
+    }
+
+    #[Route('remove/product/ajax/{id}', name: 'app_product_remove_ajax', methods: ['DELETE'],  options: ['expose' => true])]
+    public function removeAjax($id): JsonResponse
+    {
+        $product = $this->entityM->getRepository(Product::class)->find($id);
+
+        if (!$product) {
+            return $this->json(['error' => 'No product found for id ' . $id], Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityM->remove($product);
+        $this->entityM->flush();
+
+        return $this->json([
+            'success' => true,
+            'message' => 'Product deleted successfully!',
+            'productId' => $id
+        ]);
+    }
 }

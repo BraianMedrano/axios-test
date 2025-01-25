@@ -39,6 +39,7 @@ class UserController extends AbstractController
         $registration_form->handleRequest($request);
         if ($registration_form -> isSubmitted() && $registration_form -> isValid()) {
 
+            
             $plainTextPassword = $registration_form->get('password')->getData();
             $hashedPassword = $passwordHasher->hashPassword($user, $plainTextPassword);
             $user->setPassword($hashedPassword);

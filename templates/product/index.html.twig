@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             {% for product in products %}
-                <tr>
+                <tr id ="product-row-{{ product.id }}">
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }}</td>
@@ -32,6 +32,7 @@
                     <td>
                         <a type="button" class="btn btn-primary btn-sm" href="{{ path('app_product', {'id': product.id}) }}">Show</a>
                         <a type="button" class="btn btn-danger btn-sm" href="{{ path('app_product_remove', {'id':product.id} )}}">Delete</a>
+                        <a type="button" class="btn btn-warning btn-sm" onclick = "deleteProduct({{product.id}})" >Delete with Ajax</a>
                     </td>
                 </tr>
             {% endfor %}
@@ -40,5 +41,5 @@
 
     
     <a type="button" class="btn btn-primary" href="{{ path('app_product_insert') }}">Create new</a>
-    
+
 {% endblock %}
